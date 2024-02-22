@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.26" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.24" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShopOnline.Models\ShopOnline.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\Beauty\Beauty1.png" />
+    <None Include="wwwroot\Images\Beauty\Beauty2.png" />
+    <None Include="wwwroot\Images\Beauty\Beauty3.png" />
+    <None Include="wwwroot\Images\Beauty\Beauty4.png" />
+    <None Include="wwwroot\Images\Beauty\Beauty5.png" />
+    <None Include="wwwroot\Images\Electronic\electronic4.png" />
+    <None Include="wwwroot\Images\Electronic\electronic5.png" />
+    <None Include="wwwroot\Images\Electronic\Electronics1.png" />
+    <None Include="wwwroot\Images\Electronic\electronics2.png" />
+    <None Include="wwwroot\Images\Electronic\Electronics3.png" />
+    <None Include="wwwroot\Images\Electronic\technology6.png" />
+    <None Include="wwwroot\Images\Furniture\Furniture1.png" />
+    <None Include="wwwroot\Images\Furniture\Furniture2.png" />
+    <None Include="wwwroot\Images\Furniture\Furniture3.png" />
+    <None Include="wwwroot\Images\Furniture\Furniture4.png" />
+    <None Include="wwwroot\Images\Furniture\Furniture6.png" />
+    <None Include="wwwroot\Images\Furniture\Furniture7.png" />
+    <None Include="wwwroot\Images\Shoes\Shoes1.png" />
+    <None Include="wwwroot\Images\Shoes\Shoes2.png" />
+    <None Include="wwwroot\Images\Shoes\Shoes3.png" />
+    <None Include="wwwroot\Images\Shoes\shoes4.png" />
+    <None Include="wwwroot\Images\Shoes\Shoes5.png" />
+    <None Include="wwwroot\Images\Shoes\Shoes6.png" />
+  </ItemGroup>
+
+</Project>
