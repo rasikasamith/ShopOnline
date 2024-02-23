@@ -21,8 +21,8 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
-                ShoppingCartItems = await iShoppingCartService.GetItems(HardCoded.UserId);
-                calculateCartSummeryTotals();
+                ShoppingCartItems = await iShoppingCartService.GetItems(HardCoded.UserId);              
+                CartChanged();
             }
             catch (Exception ex)
             {
@@ -36,8 +36,8 @@ namespace ShopOnline.Web.Pages
             //Add
             //ShoppingCartItems = await iShoppingCartService.GetItems(HardCoded.UserId);        
 
-            RemoveCartItem(id);
-            calculateCartSummeryTotals();
+            RemoveCartItem(id);           
+            CartChanged();
         }
         private CartItemDto GetCartItem(int id)
         {
@@ -63,8 +63,8 @@ namespace ShopOnline.Web.Pages
                     };
                     var returnedUpdteItemDto = await this.iShoppingCartService.UpdateQty(updateItemDto);
 
-                    UpdateItemTotalPrice(returnedUpdteItemDto);
-                    calculateCartSummeryTotals();
+                    UpdateItemTotalPrice(returnedUpdteItemDto);                   
+                    CartChanged();
 
                     await MakeUpdateQtyButtonVisible(id, false);
                 }
@@ -117,6 +117,12 @@ namespace ShopOnline.Web.Pages
         private async Task MakeUpdateQtyButtonVisible(int id, bool visible)
         {
             await Js.InvokeVoidAsync("MakeUpdateQtyButtonVisible", id, visible);
+        }
+
+        private void CartChanged()
+        {
+            calculateCartSummeryTotals();
+            iShoppingCartService.RaiseEventOnShoppingCartChanged(TotalQuantity);
         }
     }
 }
