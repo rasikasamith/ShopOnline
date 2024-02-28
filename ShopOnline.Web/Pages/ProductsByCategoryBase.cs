@@ -1,6 +1,7 @@
 ﻿namespace ShopOnline.Web.Pages
 {
-    public class ProductsByCategoryBasecs
+    public class ProductsByCategoryBase
     {
+
     }
 }
