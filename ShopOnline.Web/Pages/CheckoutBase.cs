@@ -26,8 +26,9 @@ namespace ShopOnline.Web.Pages
         [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
 
-        //[Inject]
-        //public IManageCartItemsLocalStorageService ManageCartItemsLocalStorageService { get; set; }
+        [Inject]
+        public IManageCartItemsLocalStorageService iManageCartItemsLocalStorageService { get; set; }
+              
 
         protected string DisplayButtons { get; set; } = "block";
 
@@ -35,7 +36,9 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
-                ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+                //ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+                ShoppingCartItems = await iManageCartItemsLocalStorageService.GetCollection();
+
 
                 if (ShoppingCartItems != null /*&& ShoppingCartItems.Count() > 0*/)
                 {

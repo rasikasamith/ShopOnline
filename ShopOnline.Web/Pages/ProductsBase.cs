@@ -12,7 +12,17 @@ namespace ShopOnline.Web.Pages
         [Inject]
         public IShoppingCartService ShoppingCartService { get; set; }
 
+        [Inject]
+        public IManageProductsLocalStorageService iManageProductsLocalStorageService { get; set; }
+
+        [Inject]
+        public  IManageCartItemsLocalStorageService iManageCartItemsLocalStorageService { get; set; }
+
+
         public IEnumerable<ProductDto> Products { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         public string ErrorMessage { get; set; }
 
@@ -20,9 +30,14 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
-                Products = await ProductService.GetItems();
-                var shoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+                await ClearLocalStorage();
+
+                Products = await iManageProductsLocalStorageService.GetCollection();
+
+                var shoppingCartItems = await iManageCartItemsLocalStorageService.GetCollection();
+
                 var totalQty = shoppingCartItems.Sum(i => i.Qty);
+
                 ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
             }
             catch(Exception ex)
@@ -44,6 +59,12 @@ namespace ShopOnline.Web.Pages
         protected string GetCategoryName(IGrouping<int,ProductDto> groupedProductDtos)
         {
             return groupedProductDtos.FirstOrDefault(pg => pg.CategoryId == groupedProductDtos.Key).CategoryName;
+        }
+
+        private async Task ClearLocalStorage()
+        {
+            await iManageProductsLocalStorageService.RemoveCollection();
+            await iManageCartItemsLocalStorageService.RemoveCollection();
         }
     }
 }

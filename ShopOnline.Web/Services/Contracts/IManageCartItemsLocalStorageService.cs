@@ -1,6 +1,6 @@
 ﻿using ShopOnline.Models.DTO;
 
-namespace ShopOnline.Web.Services
+namespace ShopOnline.Web.Services.Contracts
 {
     public interface IManageCartItemsLocalStorageService
     {

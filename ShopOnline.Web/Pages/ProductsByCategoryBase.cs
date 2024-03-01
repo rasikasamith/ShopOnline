@@ -12,6 +12,9 @@ namespace ShopOnline.Web.Pages
         public int CategoryId { get; set; }
         [Inject]
         public IProductService _iProductService { get; set; }
+        [Inject]
+        public IManageProductsLocalStorageService iManageProductsLocalStorageService { get; set; }
+
         public IEnumerable<ProductDto> Products { get; set; }
         public string CategoryName { get; set; }
         public string ErrorMessage { get; set; }
@@ -20,8 +23,10 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
-                Products = await _iProductService.GetItemsByCategory(CategoryId);
-                if(Products !=null && Products.Count()>0)
+               // Products = await _iProductService.GetItemsByCategory(CategoryId);
+                Products = await GetProductCollectionByCategoryId(CategoryId);
+
+                if (Products !=null && Products.Count()>0)
                 {
                     var productDto = Products.FirstOrDefault(p => p.CategoryId == CategoryId);
                     if (productDto != null)
@@ -33,6 +38,20 @@ namespace ShopOnline.Web.Pages
             catch (Exception ex)
             {
                 ErrorMessage=ex.Message;
+            }
+        }
+
+        private async Task<IEnumerable<ProductDto>> GetProductCollectionByCategoryId(int categoryId)
+        {
+            var productCollection = await iManageProductsLocalStorageService.GetCollection();
+            if(productCollection !=null)
+            {
+                return productCollection.Where(p=>p.CategoryId== categoryId);
+
+            }
+            else
+            {
+                return await _iProductService.GetItemsByCategory(categoryId);
             }
         }
 

@@ -7,11 +7,9 @@ namespace ShopOnline.API.Extensions
     public static class DtoConvertions
     {
         //Method Overloading
-        public static IEnumerable<ProductDto> ConvertToDto(this IEnumerable<Product> products, IEnumerable<ProductCategory> productCategories)
+        public static IEnumerable<ProductDto> ConvertToDto(this IEnumerable<Product> products)
         {
-            IEnumerable<ProductDto> result = (from product in products
-                                              join productCategory in productCategories
-                                              on product.CategoryId equals productCategory.Id
+            IEnumerable<ProductDto> result = (from product in products                                             
                                               select new ProductDto
                                               {
                                                   Id = product.Id,
@@ -20,16 +18,15 @@ namespace ShopOnline.API.Extensions
                                                   ImageURL = product.ImageURL,
                                                   Price = product.Price,
                                                   Qty = product.Qty,
-                                                  CategoryId = product.CategoryId,
-                                                  CategoryName = productCategory.Name
+                                                  CategoryId = product.ProductCategory.Id,
+                                                  CategoryName =product.ProductCategory.Name
                                               }).ToList();
 
             return result;
         }
 
-        public static ProductDto ConvertToDto(this Product product, ProductCategory productCategory)
+        public static ProductDto ConvertToDto(this Product product)
         {
-
             ProductDto result = new ProductDto
             {
                 Id = product.Id,
@@ -38,8 +35,8 @@ namespace ShopOnline.API.Extensions
                 ImageURL = product.ImageURL,
                 Price = product.Price,
                 Qty = product.Qty,
-                CategoryId = product.CategoryId,
-                CategoryName = productCategory.Name
+                CategoryId = product.ProductCategory.Id,
+                CategoryName = product.ProductCategory.Name
             };
 
             return result;

@@ -13,6 +13,10 @@ namespace ShopOnline.Web.Pages
 
         [Inject]
         IShoppingCartService iShoppingCartService { get; set; }
+
+        [Inject]
+        IManageCartItemsLocalStorageService iManageCartItemsLocalStorageService { get; set; }
+
         public List<CartItemDto> ShoppingCartItems { get; set; }
         public string ErrorMessage { get; set; }
         protected string TotalPrice { get; set; }
@@ -21,7 +25,7 @@ namespace ShopOnline.Web.Pages
         {
             try
             {
-                ShoppingCartItems = await iShoppingCartService.GetItems(HardCoded.UserId);              
+                ShoppingCartItems = await iManageCartItemsLocalStorageService.GetCollection();             
                 CartChanged();
             }
             catch (Exception ex)
@@ -36,7 +40,7 @@ namespace ShopOnline.Web.Pages
             //Add
             //ShoppingCartItems = await iShoppingCartService.GetItems(HardCoded.UserId);        
 
-            RemoveCartItem(id);           
+            await RemoveCartItem(id);           
             CartChanged();
         }
         private CartItemDto GetCartItem(int id)
@@ -44,10 +48,12 @@ namespace ShopOnline.Web.Pages
             return ShoppingCartItems.FirstOrDefault(i => i.Id == id);
         }
 
-        private void RemoveCartItem(int id)
+        private async Task RemoveCartItem(int id)
         {
             var cartItemDto = GetCartItem(id);
             ShoppingCartItems.Remove(cartItemDto);
+
+            await iManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
         }
 
         protected async Task UpdateQtyCartItem_Click(int id, int qty)
@@ -63,7 +69,7 @@ namespace ShopOnline.Web.Pages
                     };
                     var returnedUpdteItemDto = await this.iShoppingCartService.UpdateQty(updateItemDto);
 
-                    UpdateItemTotalPrice(returnedUpdteItemDto);                   
+                    await UpdateItemTotalPrice(returnedUpdteItemDto);                   
                     CartChanged();
 
                     await MakeUpdateQtyButtonVisible(id, false);
@@ -100,13 +106,14 @@ namespace ShopOnline.Web.Pages
             setTotalQty();
         }
 
-        private void UpdateItemTotalPrice(CartItemDto cartItemDto)
+        private async Task UpdateItemTotalPrice(CartItemDto cartItemDto)
         {
             var item=GetCartItem(cartItemDto.Id);
             if (item != null)
             {
                 item.TotalPrice = cartItemDto.Price * cartItemDto.Qty;
             }
+            await iManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
         }
 
         protected async Task UpdateQty_Input(int id)

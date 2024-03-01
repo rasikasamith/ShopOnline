@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,10 +18,15 @@ namespace ShopOnline.Web
 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7088/") });
+
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7088/") });
             builder.Services.AddScoped<IProductService,ProductService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+
+            builder.Services.AddBlazoredLocalStorage();
             
+            builder.Services.AddScoped<IManageProductsLocalStorageService, ManageProductsLocalStorageService>();
+            builder.Services.AddScoped<IManageCartItemsLocalStorageService,ManageCartItemsLocalStorageService>();
 
             await builder.Build().RunAsync();
         }
