@@ -18,11 +18,10 @@ namespace ShopOnline.Web.Pages
         [Inject]
         public  IManageCartItemsLocalStorageService iManageCartItemsLocalStorageService { get; set; }
 
-
-        public IEnumerable<ProductDto> Products { get; set; }
-
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        public IEnumerable<ProductDto> Products { get; set; }        
 
         public string ErrorMessage { get; set; }
 
