@@ -74,7 +74,6 @@ namespace ShopOnline.API.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<ActionResult<CartItemDto>> PostItem([FromBody] CartItemToAddDto cartItemToAddDto)
         {
