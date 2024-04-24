@@ -41,8 +41,6 @@ namespace ShopOnline.Web.Services
             }
         }
 
-       
-
         public async Task<List<CartItemDto>> GetItems(int userId)
         {
             try
